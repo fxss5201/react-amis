@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom"
 const Layout = () => {
   return (
     <>
-      <div style={{margin: '15px'}}>
+      <div style={{padding: '15px'}}>
         <Link to="/test">test</Link>
         <Link to="/about" style={{marginLeft: '15px'}}>about</Link>
       </div>
