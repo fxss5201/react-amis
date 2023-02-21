@@ -2,7 +2,7 @@
   "name": "react-amis",
   "version": "0.1.0",
   "private": true,
-  "port": "8888",
+  "port": "8889",
   "timeout": "1000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -24,6 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "mock": "nodemon",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -46,7 +47,13 @@
     ]
   },
   "devDependencies": {
-    "http-proxy-middleware": "^2.0.6"
+    "@koa/router": "^12.0.0",
+    "chalk": "^4.1.1",
+    "http-proxy-middleware": "^2.0.6",
+    "koa": "^2.14.1",
+    "koa-bodyparser": "^4.3.0",
+    "mockjs": "^1.1.0",
+    "nodemon": "^2.0.20"
   },
   "husky": {
     "hooks": {

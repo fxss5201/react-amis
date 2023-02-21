@@ -1,6 +1,6 @@
 const about = {
   type: "crud",
-  api: "/api/users",
+  api: "/api/usersList",
   syncLocation: false,
   columns: [
     {
