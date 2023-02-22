@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-amis/static/css/main.222ed891.css",
-    "main.js": "/react-amis/static/js/main.a3035042.js",
+    "main.js": "/react-amis/static/js/main.cbc71a63.js",
     "static/js/1025.93f221d0.chunk.js": "/react-amis/static/js/1025.93f221d0.chunk.js",
     "static/css/5982.8a4c9cf6.chunk.css": "/react-amis/static/css/5982.8a4c9cf6.chunk.css",
     "static/js/5982.f110e2a9.chunk.js": "/react-amis/static/js/5982.f110e2a9.chunk.js",
@@ -112,7 +112,7 @@
     "static/media/codicon.ttf": "/react-amis/static/media/codicon.59002d8cc9a0e78be5b7.ttf",
     "index.html": "/react-amis/index.html",
     "main.222ed891.css.map": "/react-amis/static/css/main.222ed891.css.map",
-    "main.a3035042.js.map": "/react-amis/static/js/main.a3035042.js.map",
+    "main.cbc71a63.js.map": "/react-amis/static/js/main.cbc71a63.js.map",
     "1025.93f221d0.chunk.js.map": "/react-amis/static/js/1025.93f221d0.chunk.js.map",
     "5982.8a4c9cf6.chunk.css.map": "/react-amis/static/css/5982.8a4c9cf6.chunk.css.map",
     "5982.f110e2a9.chunk.js.map": "/react-amis/static/js/5982.f110e2a9.chunk.js.map",
@@ -219,6 +219,6 @@
   },
   "entrypoints": [
     "static/css/main.222ed891.css",
-    "static/js/main.a3035042.js"
+    "static/js/main.cbc71a63.js"
   ]
 }
