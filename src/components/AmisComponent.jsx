@@ -23,6 +23,7 @@ const AmisComponent = ({schema}) => {
         config, // 其他配置
         headers // 请求头
       }) => {
+        const fullUrl = `${process.env.NODE_ENV === 'development' ? '' : 'https://www.fastmock.site/mock/ca7c6a1ac02a88f8297b5f881f4583bf'}${url}`;
         config = config || {};
         config.withCredentials = true;
         responseType && (config.responseType = responseType);
@@ -40,7 +41,7 @@ const AmisComponent = ({schema}) => {
             config.params = data;
           }
 
-          return axios[method](url, config);
+          return axios[method](fullUrl, config);
         } else if (data && data instanceof FormData) {
           config.headers = config.headers || {};
           config.headers['Content-Type'] = 'multipart/form-data';
@@ -55,7 +56,7 @@ const AmisComponent = ({schema}) => {
           config.headers['Content-Type'] = 'application/json';
         }
 
-        return axios[method](url, data, config);
+        return axios[method](fullUrl, data, config);
       },
       isCancel: (value) => axios.isCancel(value),
       copy: content => {
