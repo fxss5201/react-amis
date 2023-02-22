@@ -26,6 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "mock": "nodemon",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -50,6 +52,7 @@
   "devDependencies": {
     "@koa/router": "^12.0.0",
     "chalk": "^4.1.1",
+    "gh-pages": "^5.0.0",
     "http-proxy-middleware": "^2.0.6",
     "koa": "^2.14.1",
     "koa-bodyparser": "^4.3.0",
