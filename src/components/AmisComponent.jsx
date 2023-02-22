@@ -23,7 +23,7 @@ const AmisComponent = ({schema}) => {
         config, // 其他配置
         headers // 请求头
       }) => {
-        const fullUrl = `${process.env.NODE_ENV === 'development' ? '' : 'https://www.fastmock.site/mock/ca7c6a1ac02a88f8297b5f881f4583bf'}${url}`;
+        const fullUrl = `${process.env.NODE_ENV === 'development' ? '' : 'https://www.fastmock.site/mock/dfd0c4a6ed4e2d7107cd3a43bc66b154/react-amis'}${url}`;
         config = config || {};
         config.withCredentials = true;
         responseType && (config.responseType = responseType);
