@@ -4,6 +4,7 @@
   "private": true,
   "port": "8889",
   "timeout": "1000",
+  "homepage": "https://fxss5201.github.io/react-amis/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
