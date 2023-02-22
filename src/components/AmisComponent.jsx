@@ -4,7 +4,7 @@ import copy from 'copy-to-clipboard';
 import { render as renderAmis } from 'amis';
 import { toast } from 'amis-ui';
 
-const CreateComponent = ({schema}) => {
+const AmisComponent = ({schema}) => {
   let theme = 'cxd';
   return renderAmis(
     schema,
@@ -102,4 +102,4 @@ const CreateComponent = ({schema}) => {
   )
 }
 
-export default CreateComponent;
+export default AmisComponent;

@@ -1,7 +1,7 @@
-import CreateComponent from "../components/CreateComponent";
+import AmisComponent from "../components/AmisComponent";
 
 const getRouteElement = (schema) => {
-  return <CreateComponent schema={schema} />;
+  return <AmisComponent schema={schema} />;
 }
 
 export default getRouteElement;
