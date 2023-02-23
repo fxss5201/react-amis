@@ -1,5 +1,9 @@
 {
   "type": "page",
   "title": "简单页面",
-  "body": "内容test"
+  "body": {
+    "type": "icon",
+    "icon": "fa-solid fa-house",
+    "vendor": ""
+  }
 }

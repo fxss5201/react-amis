@@ -1,10 +1,14 @@
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
+import { useNavigate } from 'react-router-dom';
 
 import { render as renderAmis } from 'amis';
 import { toast } from 'amis-ui';
 
 const AmisComponent = ({schema}) => {
+  const navigate = useNavigate();
+  const axiosController = new AbortController();
+
   let theme = 'cxd';
   return renderAmis(
     schema,
@@ -27,12 +31,7 @@ const AmisComponent = ({schema}) => {
         config = config || {};
         config.withCredentials = true;
         responseType && (config.responseType = responseType);
-
-        if (config.cancelExecutor) {
-          config.cancelToken = new axios.CancelToken(
-            config.cancelExecutor
-          );
-        }
+        config.signal = axiosController.signal;
 
         config.headers = headers || {};
 
@@ -63,17 +62,14 @@ const AmisComponent = ({schema}) => {
         copy(content);
         toast.success('内容已复制到粘贴板');
       },
-      theme
+      theme,
 
       // 后面这些接口可以不用实现
 
       // 默认是地址跳转
-      // jumpTo: (
-      //   location: string /*目标地址*/,
-      //   action: any /* action对象*/
-      // ) => {
-      //   // 用来实现页面跳转, actionType:link、url 都会进来。
-      // },
+      jumpTo: (location, action) => {
+        navigate(location);
+      },
 
       // updateLocation: (
       //   location: string /*目标地址*/,

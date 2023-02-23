@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import 'amis/lib/themes/cxd.css';
 import 'amis/lib/helper.css';
 import 'amis/sdk/iconfont.css';
+import 'amis-ui/lib/locale/en-US';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
