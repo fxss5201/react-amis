@@ -1,10 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocalStorageState } from 'ahooks';
+import Cookies from 'js-cookie';
 import AmisComponent from "../../components/AmisComponent";
 import { changeLocale } from '../../store/locale';
+import { setUserInfo } from '../../store/userInfo';
 import { addPrefixName } from '../../utils/index';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderRight = () => {
+  const navigate = useNavigate();
   const locale = useSelector(state => state.locale.value);
   const localeList = useSelector(state => state.locale.list);
   const [, setLocaleStorage] = useLocalStorageState(addPrefixName('locale'));
@@ -13,6 +17,16 @@ const HeaderRight = () => {
 		dispatch(changeLocale(val));
 		setLocaleStorage(val);
 	};
+
+  const logOutEvent = () => {
+    Cookies.remove(addPrefixName('accessToken'));
+    dispatch(setUserInfo({
+      name: '',
+      Header: '',
+      access: []
+    }))
+    navigate('/login');
+  }
 
   const headerRightSchema = [
     {
@@ -47,7 +61,7 @@ const HeaderRight = () => {
         {
           "type": "button",
           "label": "退出登录",
-          "onClick": "alert('点击了按钮'); console.log(props);"
+          "onClick": () => logOutEvent()
         }
       ]
     }

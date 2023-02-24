@@ -12,7 +12,6 @@ module.exports = {
       access = ['normal', 'middle', 'admin'];
     }
     const mocks = Mock.mock({
-      name: () => Mock.Random.cname(),
       header: () => Mock.Random.image(),
     })
     ctx.body = {
@@ -20,6 +19,7 @@ module.exports = {
       "msg": "",
       "data": {
         ...mocks,
+        name: account,
         access
       }
     }
