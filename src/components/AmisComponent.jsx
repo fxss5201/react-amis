@@ -1,12 +1,15 @@
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import copy from 'copy-to-clipboard';
 import { useNavigate } from 'react-router-dom';
+import allConfig from '../config';
 
 import { render as renderAmis } from 'amis';
 import { toast } from 'amis-ui';
 
 const AmisComponent = ({schema}) => {
   const navigate = useNavigate();
+  const locale = useSelector(state => state.locale.value);
   const axiosController = new AbortController();
 
   let theme = 'cxd';
@@ -14,7 +17,7 @@ const AmisComponent = ({schema}) => {
     schema,
     {
       // props...
-      // locale: 'en-US' // 请参考「多语言」的文档
+      locale,
       // scopeRef: (ref: any) => (amisScoped = ref)  // 功能和前面 SDK 的 amisScoped 一样
     },
     {
@@ -27,7 +30,7 @@ const AmisComponent = ({schema}) => {
         config, // 其他配置
         headers // 请求头
       }) => {
-        const fullUrl = `${process.env.NODE_ENV === 'development' ? '' : 'https://www.fastmock.site/mock/dfd0c4a6ed4e2d7107cd3a43bc66b154/react-amis'}${url}`;
+        const fullUrl = `${process.env.NODE_ENV === 'development' ? '' : allConfig.axiosBaseURL}${url}`;
         config = config || {};
         config.withCredentials = true;
         responseType && (config.responseType = responseType);

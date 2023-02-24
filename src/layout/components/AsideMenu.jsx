@@ -1,29 +1,22 @@
-import { useLocation } from "react-router-dom";
 import AmisComponent from "../../components/AmisComponent";
-import { routeList } from "../../router";
+import { routerList } from "../../router";
+import { useSelector } from 'react-redux';
+import cloneDeep from 'lodash.clonedeep';
+import { searchShowMenuRoutes, showMenuRoutesToMenuItems, showMenuRoutesFilterAccess } from '../../utils/router';
 
 const AsideMenu = () => {
-  const location = useLocation();
-
-  const routeListToLinks = (routeList) => {
-    return routeList.map(x => {
-      let res = {
-        ...x,
-        to: x.path
-      }
-      if (x.children) {
-        res.children = routeListToLinks(x.children)
-      }
-      if (location.pathname === x.path) res.active = true
-      return res
-    })
-  }
+	const userInfo = useSelector(state => state.userInfo.value);
+  let sideMenuList = searchShowMenuRoutes(routerList[0].children);
+  sideMenuList = sideMenuList[0]?.children;
+  const sideMenuListClone = cloneDeep(sideMenuList);
+	const sideMenuListFilterAccess = showMenuRoutesFilterAccess(sideMenuListClone, userInfo.access);
+	const sideMenuItems = showMenuRoutesToMenuItems(sideMenuListFilterAccess);
 
   const asideMenuSchema = {
     "type": "nav",
     "stacked": true,
     "className": "w-md",
-    "links": routeListToLinks(routeList)
+    "links": sideMenuItems
   }
 
   return <AmisComponent schema={asideMenuSchema} />;

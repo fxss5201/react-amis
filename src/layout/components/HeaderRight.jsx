@@ -1,21 +1,39 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocalStorageState } from 'ahooks';
 import AmisComponent from "../../components/AmisComponent";
+import { changeLocale } from '../../store/locale';
+import { addPrefixName } from '../../utils/index';
 
 const HeaderRight = () => {
+  const locale = useSelector(state => state.locale.value);
+  const localeList = useSelector(state => state.locale.list);
+  const [, setLocaleStorage] = useLocalStorageState(addPrefixName('locale'));
+	const dispatch = useDispatch();
+  const changeLocaleEvent = (val) =>  {
+		dispatch(changeLocale(val));
+		setLocaleStorage(val);
+	};
+
   const headerRightSchema = [
     {
-      "type": "select",
-      "name": "lange",
-      "value": "zh-CN",
-      "label": "",
-      "className": "m-b-none",
-      "options": [
+      "type": "dropdown-button",
+      "label": localeList.find(x => x.value === locale).label,
+      "icon": "fa-solid fa-language",
+      "closeOnClick": true,
+      "buttons": [
         {
-          "value": "zh-CN",
-          "label": "中文"
+          "type": "button",
+          "label": "中文",
+          "onClick": (e, props) => {
+            changeLocaleEvent('zh-CN');
+          }
         },
         {
-          "value": "en-US",
-          "label": "English"
+          "type": "button",
+          "label": "English",
+          "onClick": (e, props) => {
+            changeLocaleEvent('en-US');
+          }
         }
       ]
     },
@@ -24,20 +42,17 @@ const HeaderRight = () => {
       "label": "下拉菜单",
       "className": "ml-2",
       "icon": "fa fa-user",
+      "align": "right",
       "buttons": [
         {
           "type": "button",
           "label": "退出登录",
-          "actionType": "dialog",
-          "dialog": {
-            "confirmMode": false,
-            "title": "提示",
-            "body": "对，你刚点击了！"
-          }
+          "onClick": "alert('点击了按钮'); console.log(props);"
         }
       ]
     }
   ]
+
   return <div className="flex items-center">
     <AmisComponent schema={headerRightSchema} />
   </div>;
