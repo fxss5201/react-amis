@@ -5,6 +5,7 @@ import AllLayout from "../layout/AllLayout";
 import HomeLayout from "../layout/HomeLayout";
 import LoginPage from "../pages/login/loginPage";
 import Register from "../pages/login/Register";
+import ResetPassword from "../pages/login/ResettPassword";
 import test from "../pages/test";
 import about from "../pages/about";
 import schemaApi from "../pages/schemaApi";
@@ -49,7 +50,12 @@ export const routerList = [{
       path: "/register",
       label: "注册",
       element: <Register />,
-    }
+    },
+    {
+      path: "/resetpassword",
+      label: "重置密码",
+      element: <ResetPassword />,
+    },
   ]
 }]
 

@@ -34,15 +34,15 @@ const LoginPage = () => {
     },
     {
       "type": "action",
-      "label": "登录",
+      "label": "前往登录",
       "actionType": "link",
       "link": "/login"
     },
     {
       "type": "action",
-      "label": "忘记密码",
+      "label": "前往重置密码",
       "actionType": "link",
-      "link": "../docs/index"
+      "link": "/resetpassword"
     },
   ]
 

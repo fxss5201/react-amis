@@ -1,33 +1,13 @@
 /* eslint-disable no-template-curly-in-string */
-import { useLocalStorageState, useMount, useRequest, useCountDown } from 'ahooks';
+import { useRequest, useCountDown } from 'ahooks';
 import { useState } from 'react';
 import AmisComponent from "../../components/AmisComponent";
-import { loginFn, sendVerificationFn } from "../../api/user";
+import { resetPasswordFn, sendVerificationFn } from "../../api/user";
 import { useNavigate } from 'react-router-dom';
-import { setUserInfo } from '../../store/userInfo';
-import { useDispatch } from 'react-redux';
-import Cookies from 'js-cookie';
-import classNames from 'classnames';
-import { addPrefixName, encryptFn, decryptFn } from '../../utils/index';
 const pkg = require('../../../package.json');
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const tabsList = [
-    {
-      label: '密码登录',
-      value: 0
-    },
-    {
-      label: '验证码登录',
-      value: 1
-    }
-  ]
-  const [tabsValue, setTabsValue] = useState(0);
-  const [account, setAccount] = useState('');
-  const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(false);
   const [isSendVerification, setIsSendVerification] = useState(false);
   const [targetDate, setTargetDate] = useState();
   const [countdown] = useCountDown({
@@ -36,22 +16,11 @@ const LoginPage = () => {
       setIsSendVerification(false);
     },
   });
-  const [localLoginInfo, setLocalLoginInfo] = useLocalStorageState(addPrefixName('loginInfo'));
-  useMount(() => {
-    if (localLoginInfo) {
-      setAccount(localLoginInfo.account);
-      setPassword(decryptFn(localLoginInfo.password));
-      setRemember(localLoginInfo.remember);
-    }
-  })
-
-  const { loading, run: loginEvent } = useRequest(loginFn, {
+  const { loading, run: resetPasswordEvent } = useRequest(resetPasswordFn, {
     manual: true,
     onSuccess: (result, params) => {
       if(result.data.status === 0) {
-        Cookies.set(addPrefixName('accessToken'), result.data.data.name, { expires: 7 });
-        dispatch(setUserInfo(result.data.data));
-        navigate('/');
+        navigate('/login');
       }
     }
   });
@@ -72,8 +41,14 @@ const LoginPage = () => {
   const formActions = [
     {
       "type": "submit",
-      "label": "登录",
+      "label": "重置密码",
       "level": "primary"
+    },
+    {
+      "type": "action",
+      "label": "前往登录",
+      "actionType": "link",
+      "link": "/login"
     },
     {
       "type": "action",
@@ -81,18 +56,12 @@ const LoginPage = () => {
       "actionType": "link",
       "link": "/register"
     },
-    {
-      "type": "action",
-      "label": "前往重置密码",
-      "actionType": "link",
-      "link": "/resetpassword"
-    },
   ]
 
   // 密码登录
-  const loginPasswordSchema = {
+  const registerSchema = {
     "type": "spinner",
-    "show": loading,
+    "show": loading || verificationLoading,
     "overlay": true,
     "body": {
       "type": "form",
@@ -110,75 +79,28 @@ const LoginPage = () => {
         {
           "type": "input-text",
           "name": "account",
-          "label": "账号",
-          "value": account,
+          "label": "账号名",
           "clearable": true,
           "required": true,
           "validateOnChange": true,
           "validationErrors": {
-            "isRequired": "请输入账号"
+            "isRequired": "请输入账号名"
           },
-          "placeholder": "请输入账号"
+          "placeholder": "请输入账号名"
         },
         {
-          "type": "input-password",
-          "name": "password",
-          "label": "密码",
-          "value": password,
+          "type": "input-email",
+          "name": "email",
+          "label": "邮箱",
           "clearable": true,
           "required": true,
           "validateOnChange": true,
           "validationErrors": {
-            "isRequired": "请输入密码"
+            "isRequired": "请输入邮箱",
+            "isEmail": "邮箱格式不正确"
           },
-          "placeholder": "请输入密码"
+          "placeholder": "请输入邮箱"
         },
-        {
-          "type": "checkbox",
-          "name": "remember",
-          "value": remember,
-          "label": "记住登录"
-        }
-      ],
-      "actions": formActions,
-      "onSubmit": (e) => {
-        loginEvent({tabsValue, account: e.account, password: e.password});
-        if (e.remember) {
-          setLocalLoginInfo({
-            account: e.account,
-            password: encryptFn(e.password),
-            remember: e.remember
-          })
-        } else {
-          setLocalLoginInfo({
-            account: '',
-            password: encryptFn(''),
-            remember: false
-          })
-        }
-      }
-    }
-  }
-
-  // 验证码登录
-  const loginVerificationSchema = {
-    "type": "spinner",
-    "show": loading || verificationLoading,
-    "overlay": true,
-    "body": {
-      "type": "form",
-      "name": "verificationForm",
-      "style": {
-        "width": formWidth
-      },
-      "title": "",
-      "mode": "horizontal",
-      "horizontal": {
-        "leftFixed": "sm"
-      },
-      "trimValues": true,
-      // "promptPageLeave": true,
-      "body": [
         {
           "type": "input-text",
           "name": "phone",
@@ -221,11 +143,29 @@ const LoginPage = () => {
             },
             "disabled": isSendVerification
           }
+        },
+        {
+          "type": "input-password",
+          "name": "password",
+          "label": "密码",
+          "clearable": true,
+          "required": true,
+          "validateOnChange": true,
+          "validationErrors": {
+            "isRequired": "请输入密码"
+          },
+          "placeholder": "请输入密码"
         }
       ],
       "actions": formActions,
       "onSubmit": (e) => {
-        loginEvent({tabsValue, phone: e.phone, verification: e.verification});
+        resetPasswordEvent({
+          account: e.account,
+          email: e.email,
+          phone: e.phone,
+          verification: e.verification,
+          password: e.password
+        });
       }
     }
   }
@@ -233,11 +173,7 @@ const LoginPage = () => {
   return <div className="w-screen h-screen flex items-center justify-center">
     <div style={{width: formWidth}}>
       <div className="text-3xl text-center mb-3">{pkg.name}</div>
-      <div className="flex items-center justify-center mb-4">
-        {tabsList.map((x, i) => <div key={x.value} className={classNames('leading-8 cursor-pointer hover:text-blue-700', { 'ml-4': i > 0, 'text-primary': tabsValue === x.value })} onClick={() => setTabsValue(x.value)}>{x.label}</div>)}
-      </div>
-      {tabsValue === 0 && <AmisComponent schema={loginPasswordSchema} />}
-      {tabsValue === 1 && <AmisComponent schema={loginVerificationSchema} />}
+      <AmisComponent schema={registerSchema} />
     </div>
   </div>;
 }

@@ -56,4 +56,11 @@ module.exports = {
       }
     }
   },
+  "post /api/resetPassword": ctx => {
+    ctx.body = {
+      "status": 0,
+      "msg": "",
+      "data": {}
+    }
+  },
 }

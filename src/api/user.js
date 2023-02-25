@@ -11,3 +11,7 @@ export const sendVerificationFn = (params) => {
 export const registerFn = (params) => {
   return axios.post('/api/register', params)
 }
+
+export const resetPasswordFn = (params) => {
+  return axios.post('/api/resetPassword', params)
+}
