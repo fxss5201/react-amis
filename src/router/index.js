@@ -3,7 +3,7 @@ import getRouteElement from "./getRouteElement";
 
 import AllLayout from "../layout/AllLayout";
 import HomeLayout from "../layout/HomeLayout";
-import LoginPage from "../pages/loginPage";
+import LoginPage from "../pages/login/loginPage";
 import test from "../pages/test";
 import about from "../pages/about";
 import schemaApi from "../pages/schemaApi";
