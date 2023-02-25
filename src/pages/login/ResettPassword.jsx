@@ -2,12 +2,10 @@
 import { useRequest, useCountDown } from 'ahooks';
 import { useState } from 'react';
 import AmisComponent from "../../components/AmisComponent";
-import { resetPasswordFn, sendVerificationFn } from "../../api/user";
-import { useNavigate } from 'react-router-dom';
+import { sendVerificationFn } from "../../api/user";
 const pkg = require('../../../package.json');
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const [isSendVerification, setIsSendVerification] = useState(false);
   const [targetDate, setTargetDate] = useState();
   const [countdown] = useCountDown({
@@ -15,14 +13,6 @@ const LoginPage = () => {
     onEnd: () => {
       setIsSendVerification(false);
     },
-  });
-  const { loading, run: resetPasswordEvent } = useRequest(resetPasswordFn, {
-    manual: true,
-    onSuccess: (result, params) => {
-      if(result.data.status === 0) {
-        navigate('/login');
-      }
-    }
   });
 
   const {loading: verificationLoading, run: sendVerificationEvent} = useRequest(sendVerificationFn, {
@@ -61,10 +51,19 @@ const LoginPage = () => {
   // 密码登录
   const registerSchema = {
     "type": "spinner",
-    "show": loading || verificationLoading,
+    "show":  verificationLoading,
     "overlay": true,
     "body": {
       "type": "form",
+      "api": {
+        "method": "post",
+        "url": "/api/resetPassword",
+        "messages": {
+          "success": "密码重置成功！",
+          "failed": "密码重置失败！"
+        },
+      },
+      "redirect": "/login",
       "style": {
         "width": formWidth
       },
@@ -157,16 +156,7 @@ const LoginPage = () => {
           "placeholder": "请输入密码"
         }
       ],
-      "actions": formActions,
-      "onSubmit": (e) => {
-        resetPasswordEvent({
-          account: e.account,
-          email: e.email,
-          phone: e.phone,
-          verification: e.verification,
-          password: e.password
-        });
-      }
+      "actions": formActions
     }
   }
 
