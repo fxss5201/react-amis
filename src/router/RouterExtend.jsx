@@ -20,7 +20,7 @@ const RouterExtend = (props) => {
     curRoute = route.children[0]
   }
   
-  useTitle(curRoute.title)
+  useTitle(curRoute.label)
 
 	if (route.redirect) return <Navigate to={route.redirect} replace />;
 

@@ -4,6 +4,7 @@ import getRouteElement from "./getRouteElement";
 import AllLayout from "../layout/AllLayout";
 import HomeLayout from "../layout/HomeLayout";
 import LoginPage from "../pages/login/loginPage";
+import Register from "../pages/login/Register";
 import test from "../pages/test";
 import about from "../pages/about";
 import schemaApi from "../pages/schemaApi";
@@ -41,9 +42,13 @@ export const routerList = [{
     },
     {
       path: "/login",
-      label: "login",
-      title: "登录",
+      label: "登录",
       element: <LoginPage />,
+    },
+    {
+      path: "/register",
+      label: "注册",
+      element: <Register />,
     }
   ]
 }]

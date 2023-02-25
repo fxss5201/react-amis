@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import { useLocalStorageState, useMount, useRequest } from 'ahooks';
+import { useLocalStorageState, useMount, useRequest, useCountDown } from 'ahooks';
 import { useState } from 'react';
 import AmisComponent from "../../components/AmisComponent";
 import { loginFn, sendVerificationFn } from "../../api/user";
@@ -29,6 +29,13 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
   const [isSendVerification, setIsSendVerification] = useState(false);
+  const [targetDate, setTargetDate] = useState();
+  const [countdown] = useCountDown({
+    targetDate,
+    onEnd: () => {
+      setIsSendVerification(false);
+    },
+  });
   const [localLoginInfo, setLocalLoginInfo] = useLocalStorageState(addPrefixName('loginInfo'));
   useMount(() => {
     if (localLoginInfo) {
@@ -54,7 +61,8 @@ const LoginPage = () => {
     onSuccess: (result, params) => {
       if(result.data.status === 0) {
         // toast.success('验证码发送成功', {});
-        alert('验证码发送成功');
+        setTargetDate(Date.now() + 60 * 1000);
+        setIsSendVerification(true);
       }
     }
   })
@@ -71,7 +79,7 @@ const LoginPage = () => {
       "type": "action",
       "label": "注册",
       "actionType": "link",
-      "link": "../docs/index"
+      "link": "/register"
     },
     {
       "type": "action",
@@ -109,7 +117,8 @@ const LoginPage = () => {
           "validateOnChange": true,
           "validationErrors": {
             "isRequired": "请输入账号"
-          }
+          },
+          "placeholder": "请输入账号"
         },
         {
           "type": "input-password",
@@ -121,7 +130,8 @@ const LoginPage = () => {
           "validateOnChange": true,
           "validationErrors": {
             "isRequired": "请输入密码"
-          }
+          },
+          "placeholder": "请输入密码"
         },
         {
           "type": "checkbox",
@@ -181,7 +191,8 @@ const LoginPage = () => {
           "validateOnChange": true,
           "validationErrors": {
             "isRequired": "请输入手机号"
-          }
+          },
+          "placeholder": "请输入手机号"
         },
         {
           "type": "input-text",
@@ -196,16 +207,19 @@ const LoginPage = () => {
           "validationErrors": {
             "isRequired": "请输入验证码"
           },
+          "placeholder": "请输入验证码",
           "addOn": {
             "type": "button",
-            "label": "发送验证码",
+            "label": isSendVerification ? `${Math.round(countdown / 1000)}s` : "发送验证码",
             "onClick": (e, props) => {
               // 暂时未找到只验证 phone 的方式
+              if (isSendVerification) return false
               props.formStore.validate();
               if (/^1\d{10}$/.test(props.formStore.data.phone)) {
                 sendVerificationEvent({phone: props.formStore.data.phone});
               }
-            }
+            },
+            "disabled": isSendVerification
           }
         }
       ],
