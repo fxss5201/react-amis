@@ -68,7 +68,6 @@ export const showMenuRoutesToMenuItems = (routes = []) => {
     if (item.children) {
       result.push({
         ...item,
-        to: item.path,
         children: showMenuRoutesToMenuItems(item.children)
       })
     } else {

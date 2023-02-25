@@ -3,12 +3,14 @@ import getRouteElement from "./getRouteElement";
 
 import AllLayout from "../layout/AllLayout";
 import HomeLayout from "../layout/HomeLayout";
+import PageOutlet from "../pages/PageOutlet";
 import LoginPage from "../pages/login/loginPage";
 import Register from "../pages/login/Register";
 import ResetPassword from "../pages/login/ResettPassword";
 import test from "../pages/test";
 import about from "../pages/about";
 import schemaApi from "../pages/schemaApi";
+import unfold from '../pages/unfold.json'
 
 export const routerList = [{
   path: "/",
@@ -38,6 +40,20 @@ export const routerList = [{
           label: "schemaApi",
           icon: "fa-solid fa-bars",
           element: getRouteElement(schemaApi),
+        },
+        {
+          path: "/admin/unfold",
+          redirect: "/admin/unfold/one",
+          label: "测试展开",
+          icon: "fa-regular fa-folder-open",
+          element: <PageOutlet />,
+          children: [
+            {
+              path: "/admin/unfold/one",
+              label: "展开",
+              element: getRouteElement(unfold),
+            }
+          ]
         }
       ]
     },

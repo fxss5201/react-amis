@@ -1,0 +1,8 @@
+{
+  "type": "page",
+  "title": "简单页面",
+  "body": {
+    "type": "tpl",
+    "tpl": "测试展开"
+  }
+}
