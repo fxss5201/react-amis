@@ -1,5 +1,5 @@
 import { createHashRouter } from "react-router-dom";
-import getRouteElement from "./getRouteElement";
+import { getRouteElementBySchema, getRouteElementBySchemaApi } from "./getRouteElement";
 
 import AllLayout from "../layout/AllLayout";
 import HomeLayout from "../layout/HomeLayout";
@@ -9,10 +9,11 @@ import Register from "../pages/login/Register";
 import ResetPassword from "../pages/login/ResettPassword";
 import test from "../pages/test";
 import about from "../pages/about";
-import schemaApi from "../pages/schemaApi";
+// import schemaApi from "../pages/schemaApi";
 import unfold from '../pages/unfold.json'
 
-export const routerList = [{
+// 路由配置列表，单个路由 element/schema/schemaApi 只能指定一个
+const routerConfig = [{
   path: "/",
   element: <AllLayout />,
   redirect: "/admin",
@@ -27,19 +28,19 @@ export const routerList = [{
           label: "test",
           icon: "fa-solid fa-house",
           requiresAuth: true,
-          element: getRouteElement(test),
+          element: getRouteElementBySchema(test),
         },
         {
           path: "/admin/about",
           label: "about",
           icon: "fa-solid fa-bars",
-          element: getRouteElement(about),
+          schema: about,
         },
         {
           path: "/admin/schemaApi",
           label: "schemaApi",
           icon: "fa-solid fa-bars",
-          element: getRouteElement(schemaApi),
+          schemaApi: "/api/schema",
         },
         {
           path: "/admin/unfold",
@@ -51,7 +52,7 @@ export const routerList = [{
             {
               path: "/admin/unfold/one",
               label: "展开",
-              element: getRouteElement(unfold),
+              schema: unfold,
             }
           ]
         }
@@ -74,6 +75,28 @@ export const routerList = [{
     },
   ]
 }]
+
+// 将路由配置列表生成路由列表
+const configToList = (arr) => {
+  return arr.map(item => {
+    let res = item
+    if (!item.element) {
+      if (item.schema) {
+        // 配置 schema
+        res.element = getRouteElementBySchema(item.schema)
+      } else if (item.schemaApi) {
+        // 配置 schemaApi
+        res.element = getRouteElementBySchemaApi(item.schemaApi)
+      }
+    }
+    if (item.children) {
+      res.children = configToList(item.children)
+    }
+    return res
+  })
+}
+
+export const routerList = configToList(routerConfig);
 
 const router = createHashRouter(routerList);
 

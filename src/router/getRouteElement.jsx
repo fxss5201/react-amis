@@ -1,7 +1,13 @@
 import AmisComponent from "../components/AmisComponent";
 
-const getRouteElement = (schema) => {
+export const getRouteElementBySchema = (schema) => {
   return <AmisComponent schema={schema} />;
 }
 
-export default getRouteElement;
+export const getRouteElementBySchemaApi = (schemaApi) => {
+  const schema = {
+    type: "service",
+    schemaApi
+  }
+  return <AmisComponent schema={schema} />;
+}
