@@ -1,6 +1,7 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import AsideMenu from "./components/AsideMenu";
 import HeaderRight from "./components/HeaderRight";
+import LayoutTabs from "./components/LayoutTabs";
 
 const Layout = () => {
   const headerHeight = '51px';
@@ -26,8 +27,11 @@ const Layout = () => {
               <AsideMenu />
             </div>
           </div>
-          <div className="flex-auto">
-            <Outlet />
+          <div className="flex-auto flex flex-col items-stretch">
+            <LayoutTabs headerHeight={headerHeight} asideMenuWidth={asideMenuWidth} />
+            <div className="flex-auto">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>

@@ -1,3 +1,17 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.layout-tabs-box .cxd-Tabs-content {
+  display: none;
+}
+
+.layout-tabs-box .cxd-Tabs--line > .cxd-Tabs-linksContainer-wrapper > .cxd-Tabs-linksContainer > .cxd-Tabs-linksContainer-main > .cxd-Tabs-links > li {
+  padding: 0 calc(var(--Tabs--line-padding) / 2);
+  display: flex;
+  align-items: center;
+}
+
+.layout-tabs-box .cxd-Tabs--line > .cxd-Tabs-linksContainer-wrapper > .cxd-Tabs-linksContainer > .cxd-Tabs-linksContainer-main > .cxd-Tabs-links > li > a:first-child {
+  padding: 0.5rem 0;
+}
